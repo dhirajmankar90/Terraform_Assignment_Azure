@@ -24,13 +24,13 @@ stages:
       displayName: "Run Terraform plan"
     - task: CopyFiles@2 
       inputs:
-        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        SourceFolder: '$(Build.DefaultWorkingDirectory)'
         Contents: '**.out'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)/temp'
+        TargetFolder: '$(Build.DefaultWorkingDirectory)/temp'
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact"
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/temp'
+        PathtoPublish: '$(Build.DefaultWorkingDirectory)/temp'
         ArtifactName: 'drop'
         publishLocation: 'Container'
 - stage: "TF_APPLY"
