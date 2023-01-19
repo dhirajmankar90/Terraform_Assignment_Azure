@@ -17,7 +17,7 @@ stages:
     - task : TerraformInstaller@0
     - script: |
         echo 'Terraform Init'
-        terraform init
+        terraform init -lockfile=readonly
       displayName: "Run Terraform init"
     - script: |
         echo 'Terraform Plan'
@@ -51,6 +51,7 @@ stages:
     #     buildType: 'current'
     #     artifactName: 'drop'
     #     targetPath: '$(Pipeline.Workspace)'
+    
     - script: |
         echo "Terraform Apply"
         terraform apply "trfplan.out"
