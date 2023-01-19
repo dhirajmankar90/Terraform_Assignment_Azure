@@ -27,7 +27,10 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**.out'
+        Contents: |
+          '**.out'
+          '.terraform'
+          '.terraform.lock.hcl'
         TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact"
@@ -54,7 +57,7 @@ stages:
     
     - script: |
         echo "Terraform Apply"
-        terraform apply
+        terraform apply "plan.out"
       displayName: "Run Terraform apply"
       workingDirectory: $(System.ArtifactsDirectory)/drop
 
