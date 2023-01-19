@@ -29,8 +29,8 @@ stages:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
           '$(System.DefaultWorkingDirectory)/plan.out'
-          '$(System.DefaultWorkingDirectory)/.terraform'
-          '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
+          # '$(System.DefaultWorkingDirectory)/.terraform'
+          # '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
           # '**/*'
           # '**.out'
           # '.terraform'
