@@ -21,7 +21,7 @@ stages:
       displayName: "Run Terraform init"
     - script: |
         echo 'Terraform Plan'
-        terraform plan -out plan.out
+        terraform plan -out trfplan.out
       displayName: "Run Terraform plan"
   
     - task: CopyFiles@2
@@ -53,7 +53,7 @@ stages:
     #     targetPath: '$(Pipeline.Workspace)'
     - script: |
         echo "Terraform Apply"
-        terraform apply "plan.out"
+        terraform apply "trfplan.out"
       displayName: "Run Terraform apply"
       workingDirectory: $(System.ArtifactsDirectory)/drop
 
