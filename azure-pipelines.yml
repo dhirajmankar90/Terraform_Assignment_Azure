@@ -51,7 +51,7 @@ stages:
     #     buildType: 'current'
     #     artifactName: 'drop'
     #     targetPath: '$(Pipeline.Workspace)'
-    - script:
+    - script: |
         echo "Terraform Apply"
         terraform apply "plan.out"
       displayName: "Run Terraform apply"
