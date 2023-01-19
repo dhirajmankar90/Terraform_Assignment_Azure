@@ -27,7 +27,8 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '$(System.DefaultWorkingDirectory)/?(*.out|terraform-provider-azurerm_*|*.hcl)'
+        Contents: '**/*'
+          # '$(System.DefaultWorkingDirectory)/?(*.out|terraform-provider-azurerm_*|*.hcl)'
           
           # '$(System.DefaultWorkingDirectory)/.terraform'
           # '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
