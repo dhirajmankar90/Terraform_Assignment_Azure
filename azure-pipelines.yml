@@ -1,4 +1,4 @@
-# Starter pipeline
+ # Starter pipeline
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -24,13 +24,13 @@ stages:
       displayName: "Run Terraform plan"
     - task: CopyFiles@2 
       inputs:
-        SourceFolder: '$(Build.DefaultWorkingDirectory)'
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
         Contents: '**.out'
-        TargetFolder: '$(Build.DefaultWorkingDirectory)/temp'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/temp'
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact"
       inputs:
-        PathtoPublish: '$(Build.DefaultWorkingDirectory)/temp'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/temp'
         ArtifactName: 'drop'
         publishLocation: 'Container'
 - stage: "TF_APPLY"
