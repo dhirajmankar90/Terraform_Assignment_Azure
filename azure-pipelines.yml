@@ -22,14 +22,10 @@ stages:
         echo 'terraform plan'
         terraform plan -out plan.out
       displayName: "Run Terraform plan"
-    - task: CopyFiles@2 
-      inputs:
-        SourceFolder: '$(Build.ArtifactStagingDirectory)'
-        Contents: '**.out'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)/temp'
+  
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(build.ArtifactStagingDirectory)/temp'
+        targetPath: '$(build.ArtifactStagingDirectory)'
         artifact: 'drop'
         publishLocation: 'pipeline'
     # - task: PublishBuildArtifacts@1
