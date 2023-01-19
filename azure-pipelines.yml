@@ -27,10 +27,10 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: |
-          '**.out'
-          '.terraform'
-          '.terraform.lock.hcl'
+        Contents: '**/*'
+          # '**.out'
+          # '.terraform'
+          # '.terraform.lock.hcl'
         TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact"
