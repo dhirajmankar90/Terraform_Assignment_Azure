@@ -23,29 +23,35 @@ stages:
         terraform plan -out plan.out
       displayName: "Run Terraform plan"
   
-    - task: PublishPipelineArtifact@1
+    - task: CopyFiles@2
       inputs:
-        targetPath: '$(build.ArtifactStagingDirectory)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
-    # - task: PublishBuildArtifacts@1
-    #   displayName: "Publish Artifact"
-    #   inputs:
-    #     PathtoPublish: '$(Build.DefaultWorkingDirectory)/temp'
-    #     ArtifactName: 'drop'
-    #     publishLocation: 'Container'
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**.out'
+        TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish Artifact"
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/temp'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 - stage: "TF_APPLY"
   jobs:
   - job: "TF_run"
     steps:
-    - task: DownloadPipelineArtifact@2
+    - task: DownloadBuildArtifacts@1
       inputs:
         buildType: 'current'
+        downloadType: 'single'
         artifactName: 'drop'
-        targetPath: '$(Pipeline.Workspace)'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    # - task: DownloadPipelineArtifact@2
+    #   inputs:
+    #     buildType: 'current'
+    #     artifactName: 'drop'
+    #     targetPath: '$(Pipeline.Workspace)'
     - script:
         echo "terraform apply"
         terraform apply plan.out
       displayName: "Run Terraform apply"
-      workingDirectory: $(Pipeline.Workspace)/drop
+      workingDirectory: $(System.ArtifactsDirectory)/drop
 
