@@ -1,3 +1,3 @@
-network_interface_count = "2"
-instances_count         = "2"
-managed_disk_count      = "2"
+network_interface_count = "1"
+instances_count         = "1"
+managed_disk_count      = "1"
