@@ -14,12 +14,13 @@ stages:
   jobs:
   - job: "TF_init_build"
     steps:
+    - task : TerraformInstaller@0
     - script: |
-        echo 'terraform init'
+        echo 'Terraform Init'
         terraform init
       displayName: "Run Terraform init"
     - script: |
-        echo 'terraform plan'
+        echo 'Terraform Plan'
         terraform plan -out plan.out
       displayName: "Run Terraform plan"
   
@@ -38,6 +39,7 @@ stages:
   jobs:
   - job: "TF_run"
     steps:
+    - task : TerraformInstaller@0
     - task: DownloadBuildArtifacts@1
       inputs:
         buildType: 'current'
@@ -50,7 +52,7 @@ stages:
     #     artifactName: 'drop'
     #     targetPath: '$(Pipeline.Workspace)'
     - script:
-        echo "terraform apply"
+        echo "Terraform Apply"
         terraform apply plan.out
       displayName: "Run Terraform apply"
       workingDirectory: $(System.ArtifactsDirectory)/drop
