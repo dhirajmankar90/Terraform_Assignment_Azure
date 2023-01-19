@@ -24,23 +24,23 @@ stages:
         terraform plan -out plan.out
       displayName: "Run Terraform plan"
   
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/*'
-          # '$(System.DefaultWorkingDirectory)/?(*.out|terraform-provider-azurerm_*|*.hcl)'
+    # - task: CopyFiles@2
+    #   inputs:
+    #     SourceFolder: '$(System.DefaultWorkingDirectory)'
+    #     Contents: '**/*'
+    #       # '$(System.DefaultWorkingDirectory)/?(*.out|terraform-provider-azurerm_*|*.hcl)'
           
-          # '$(System.DefaultWorkingDirectory)/.terraform'
-          # '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
-          # '**/*'
-          # '**.out'
-          # '.terraform'
-          # '.terraform.lock.hcl'
-        TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
+    #       # '$(System.DefaultWorkingDirectory)/.terraform'
+    #       # '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
+    #       # '**/*'
+    #       # '**.out'
+    #       # '.terraform'
+    #       # '.terraform.lock.hcl'
+    #     TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact"
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/temp'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
 - stage: "TF_APPLY"
