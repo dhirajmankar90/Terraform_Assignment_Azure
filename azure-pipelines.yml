@@ -1,0 +1,63 @@
+ # Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: "TF_PLAN"
+  jobs:
+  - job: "TF_init_build"
+    steps:
+    - task : TerraformInstaller@0
+    - script: |
+        echo 'Terraform Init'
+        terraform init
+      displayName: "Run Terraform init"
+    - script: |
+        echo 'Terraform Plan'
+        terraform plan -out plan.out
+      displayName: "Run Terraform plan"
+  
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/*'
+          # '**.out'
+          # '.terraform'
+          # '.terraform.lock.hcl'
+        TargetFolder: '$(System.DefaultWorkingDirectory)/temp'
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish Artifact"
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/temp'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+- stage: "TF_APPLY"
+  jobs:
+  - job: "TF_run"
+    steps:
+    - task : TerraformInstaller@0
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    # - task: DownloadPipelineArtifact@2
+    #   inputs:
+    #     buildType: 'current'
+    #     artifactName: 'drop'
+    #     targetPath: '$(Pipeline.Workspace)'
+    
+    - script: |
+        echo "Terraform Apply"
+        terraform apply "plan.out"
+      displayName: "Run Terraform apply"
+      workingDirectory: $(System.ArtifactsDirectory)/drop
+
