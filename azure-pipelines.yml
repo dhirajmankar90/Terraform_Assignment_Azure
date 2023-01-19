@@ -17,11 +17,11 @@ stages:
     - task : TerraformInstaller@0
     - script: |
         echo 'Terraform Init'
-        terraform init -upgrade
+        terraform init
       displayName: "Run Terraform init"
     - script: |
         echo 'Terraform Plan'
-        terraform plan -out trfplan.out
+        terraform plan -out=deploy.tfplan
       displayName: "Run Terraform plan"
   
     - task: CopyFiles@2
@@ -54,7 +54,7 @@ stages:
     
     - script: |
         echo "Terraform Apply"
-        terraform apply "trfplan.out"
+        terraform apply "deploy.tfplan"
       displayName: "Run Terraform apply"
       workingDirectory: $(System.ArtifactsDirectory)/drop
 
