@@ -61,7 +61,7 @@ stages:
     
     - script: |
         echo "Terraform Apply"
-        terraform apply
+        terraform apply plan.out
       displayName: "Run Terraform apply"
       workingDirectory: $(System.ArtifactsDirectory)/drop
 
