@@ -14,11 +14,11 @@ stages:
   jobs:
   - job: "TF_init_build"
     steps:
-    - script:
+    - script: |
         echo 'terraform init'
         terraform init
       displayName: "Run Terraform init"
-    - script:
+    - script: |
         echo 'terraform plan'
         terraform plan -out plan.out
       displayName: "Run Terraform plan"
